@@ -1,0 +1,26 @@
+.btn-submit {
+    background-color: white;
+    color: #ebae40;
+    font-weight: bold;
+    border: 2px solid #ebae40;
+    border-radius: 5px;
+    padding: 5px 15px;
+    box-shadow: 1px 1px 1px lightgray;
+    margin-right: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #ebae40;
+    color: white;
+    border: 2px solid #ebae40;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #2b669a;
+}

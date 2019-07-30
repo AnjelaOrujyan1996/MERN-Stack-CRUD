@@ -1,0 +1,29 @@
+.header-content {
+  background-color: #2b669a;
+  color: white;
+  padding: 20px;
+  margin: 0;
+}
+
+.content {
+  width: 80%;
+  margin: 0 auto;
+  border: 1px solid #2b669a;
+  box-shadow: 2px 2px 2px #2b669a;
+}
+.addBook a {
+  padding: 10px;
+}
+
+.addBook a:hover {
+  color: white;
+  background-color: #337ab7;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

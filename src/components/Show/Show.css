@@ -1,0 +1,54 @@
+dd {
+    margin-bottom: 10px;
+}
+
+dt {
+    font-size: 16px;
+    font-weight: bold;
+    color: #337ab7;
+}
+
+.edit-btn {
+    background-color: white;
+    color: green;
+    font-weight: bold;
+    border: 2px solid green;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 1px gray;
+    margin-right: 10px;
+}
+
+.edit-btn:hover {
+    background-color: green;
+    color: white;
+    border: 2px solid green;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.delete-btn {
+    background-color: white;
+    color: darkred;
+    font-weight: bold;
+    border: 2px solid darkred;
+    border-radius: 5px;
+    padding: 8px 15px;
+    box-shadow: 1px 1px 1px gray;
+}
+
+.delete-btn:hover {
+    background-color: darkred;
+    color: white;
+    border: 2px solid darkred;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
+
+h4 {
+    margin-bottom: 20px;
+}
