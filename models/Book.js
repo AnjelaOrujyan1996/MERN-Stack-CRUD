@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var BookSchema = new mongoose.Schema({
-  onHands: String,
+  onHands: Boolean,
   title: String,
   author: String,
   description: String,

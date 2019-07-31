@@ -24,3 +24,13 @@
     box-shadow: none;
     border-color: #2b669a;
 }
+
+.disabled {
+    background-color: lightgrey;
+    color: white;
+    border: 2px solid lightgrey;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}

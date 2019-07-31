@@ -15,9 +15,7 @@ class App extends Component {
   componentDidMount() {
     axios.get('/api/book')
       .then(res => {
-          console.log(res.data)
         this.setState({ books: res.data });
-        console.log(this.state.books);
       });
   }
 
@@ -42,7 +40,7 @@ class App extends Component {
                 {this.state.books.map(book =>
                   <tr>
                     <td><Link to={`/show/${book._id}`}>{book.title}</Link></td>
-                    <td>{book.onHands.toString()}</td>
+                    <td>{book.onHands}</td>
                     <td>{book.author}</td>
                   </tr>
                 )}

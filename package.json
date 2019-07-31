@@ -26,7 +26,6 @@
     "start": "concurrently \"npm run start-server\" \"npm run start-react\""
   },
   "devDependencies": {
-    "bootstrap": "^3.3.7"
   },
   "proxy": "http://localhost:5000/"
 }

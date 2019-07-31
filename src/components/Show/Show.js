@@ -17,12 +17,10 @@ class Show extends Component {
     axios.get('/api/book/'+this.props.match.params.id)
       .then(res => {
         this.setState({ book: res.data });
-        console.log(this.state.book);
       });
   }
 
   delete(id){
-    console.log(id);
     axios.delete('/api/book/'+id)
       .then((result) => {
         this.props.history.push("/")
