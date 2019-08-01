@@ -15,13 +15,13 @@ class Create extends Component {
             isFormValid: false,
             formControls: {
                 onHands: {
-                    value: '',
+                    value: null,
                     type: 'radio',
                     label: 'On Hands',
                     errorMessage: 'Field is required!',
                     options: [
-                        {value: 'true', label: 'True'},
-                        {value: 'false', label: 'False'},
+                        {value: true, label: 'True'},
+                        {value: false, label: 'False'},
                     ],
                     validation: {
                         required: true,
@@ -75,6 +75,17 @@ class Create extends Component {
         this.setState(this.state);
     }
 
+    BooleanParse = function (str) {
+        switch (str.toLowerCase ()) {
+            case "true":
+                return true;
+            case "false":
+                return false;
+            default:
+                throw new Error ("Boolean.parse: Cannot convert string to boolean.");
+        }
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         const {onHands, title, author, description, published_year, publisher} = this.state.formControls;
@@ -86,7 +97,6 @@ class Create extends Component {
             published_year: published_year.value,
             publisher: publisher.value
         };
-        console.log('Send data: ', sendData);
         axios.post('/api/book', sendData)
             .then((result) => {
                 this.props.history.push("/")
@@ -97,9 +107,9 @@ class Create extends Component {
         const formControls = {...this.state.formControls}
         const control = {...formControls[controlName]}
 
-        control.value = event.target.value
+        controlName === 'onHands'? control.value = this.BooleanParse(event.target.value) : control.value = event.target.value;
         control.touched = true;
-        control.valid = validate(control.value, control.validation)
+        control.valid = validate(control.value, control.validation);
 
         formControls[controlName] = control;
 
@@ -119,8 +129,11 @@ class Create extends Component {
             const control = this.state.formControls[controlName];
             if (controlName === 'onHands') {
                 return (
-                    <div className="form-group">
-                        <label className='col-4 mr-3'>On Hands</label>
+                    <div className="form-group"  key={controlName + 'form-group' + index}>
+                        <div className='d-flex align-items-start'>
+                            <label className='col-4'>On Hands</label>
+                            <span className="glyphicon glyphicon-asterisk asterisk" aria-hidden="true"/>
+                        </div>
                         <div className="form-check-inline">
                             <Input
                                 name='onHands'
@@ -162,6 +175,7 @@ class Create extends Component {
                             touched={control.touched}
                             label={control.label}
                             shouldValidate={!!control.validation}
+                            validation={control.validation}
                             errorMessage={control.errorMessage}
                             onChange={event => this.onChangeHandler(event, controlName)}
                         />
@@ -181,52 +195,9 @@ class Create extends Component {
                     ADD BOOK
                 </h3>
                 <div className="panel-body">
-                    <h4><Link to="/"><span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> Book List</Link>
-                    </h4>
+                    <h4><Link to="/"><span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> Book List</Link></h4>
                     <form onSubmit={this.onSubmit}>
                         {this.renderInputs()}
-
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="title">Title:</label>*/}
-                        {/*    <input type="text" className="form-control" name="title" value={title}*/}
-                        {/*           onChange={this.onChange} placeholder="Title"/>*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="author">Author:</label>*/}
-                        {/*    <input type="text" className="form-control" name="author" value={author}*/}
-                        {/*           onChange={this.onChange} placeholder="Author"/>*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="description">Description:</label>*/}
-                        {/*    <textArea className="form-control" name="description" onChange={this.onChange}*/}
-                        {/*              placeholder="Description" cols="80" value={description} rows="3"/>*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="published_date">Published Date:</label>*/}
-                        {/*    <input type="number" className="form-control" name="published_year" value={published_year}*/}
-                        {/*           onChange={this.onChange} placeholder="Published Year"/>*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="publisher">Publisher:</label>*/}
-                        {/*    <input type="text" className="form-control" name="publisher" value={publisher}*/}
-                        {/*           onChange={this.onChange} placeholder="Publisher"/>*/}
-                        {/*</div>*/}
-                        {/*<div className="form-group">*/}
-                        {/*    <label htmlFor="onHands">On Hands:</label>*/}
-                        {/*    <div className="form-check-inline">*/}
-                        {/*        <label className="form-check-label">*/}
-                        {/*            <input type="radio" className="form-check-input" name="onHands" value='false'*/}
-                        {/*                   onChange={this.onChange}/> False*/}
-                        {/*        </label>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="form-check-inline">*/}
-                        {/*        <label className="form-check-label">*/}
-                        {/*            <input type="radio" className="form-check-input" name="onHands" value='true'*/}
-                        {/*                   onChange={this.onChange}/> True*/}
-                        {/*        </label>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
                         <button type="submit" className={!this.state.isFormValid ? 'disabled' : 'btn-submit'} disabled={!this.state.isFormValid}>Submit</button>
                     </form>
                 </div>

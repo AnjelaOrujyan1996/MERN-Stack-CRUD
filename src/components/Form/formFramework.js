@@ -16,7 +16,11 @@ export function validate(value, validation = null) {
   let isValid = true
 
   if (validation.required) {
-    isValid = value.trim() !== '' && isValid
+    if(typeof value === 'string') {
+      isValid = value.trim() !== '' && isValid
+    } else {
+      isValid = value !== '' && isValid
+    }
   }
 
   return isValid

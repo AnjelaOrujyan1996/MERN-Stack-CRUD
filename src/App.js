@@ -27,7 +27,7 @@ class App extends Component {
               BOOKS
             </h3>
           <div className="panel-body">
-            <h4 class="addBook"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Book</Link></h4>
+            <h4 className="addBook"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Book</Link></h4>
             <table className="table table-stripe">
               <thead>
                 <tr>
@@ -40,7 +40,7 @@ class App extends Component {
                 {this.state.books.map(book =>
                   <tr>
                     <td><Link to={`/show/${book._id}`}>{book.title}</Link></td>
-                    <td>{book.onHands}</td>
+                    <td>{book.onHands ? 'True' : 'False'}</td>
                     <td>{book.author}</td>
                   </tr>
                 )}

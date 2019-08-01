@@ -45,7 +45,7 @@ class Show extends Component {
               <dt>Publisher:</dt>
               <dd>{this.state.book.publisher}</dd>
               <dt>On Hands:</dt>
-              <dd>{this.state.book.onHands}</dd>
+              <dd>{this.state.book.onHands ? 'True' : 'False'}</dd>
             </dl>
             <Link to={`/edit/${this.state.book._id}`} className="edit-btn mr-4">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.book._id)} className="delete-btn">Delete</button>

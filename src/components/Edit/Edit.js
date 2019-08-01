@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import '../../App.css'
 import './Edit.css'
-import {createControl, validate} from "../Form/formFramework";
+import {createControl, validate, validateForm} from "../Form/formFramework";
 import Input from "../UI/Input/Input";
 
 class Edit extends Component {
@@ -14,7 +14,7 @@ class Edit extends Component {
             isFormValid: false,
             formControls: {
                 _id: {
-                    value: ''
+                    value: null
                 },
                 onHands: {
                     value: '',
@@ -22,8 +22,8 @@ class Edit extends Component {
                     label: 'On Hands',
                     errorMessage: 'Field is required!',
                     options: [
-                        {value: 'true', label: 'True'},
-                        {value: 'false', label: 'False'},
+                        {value: true, label: 'True'},
+                        {value: false, label: 'False'},
                     ],
                     validation: {
                         required: true,
@@ -82,28 +82,11 @@ class Edit extends Component {
                 })
                 Object.keys(this.state.formControls).map((controlName, index) => {
                     this.state.formControls[controlName] = createControl(this.state.formControls[controlName], this.state.formControls[controlName].validation)
-                })
+                });
+                this.state.isFormValid = validateForm(this.state.formControls);
                 this.setState(this.state);
             });
     }
-
-    //
-    // onChange = (e) => {
-    //   const state = this.state
-    //   state[e.target.name] = e.target.value;
-    //   this.setState(this.state);
-    // }
-
-    // onSubmit = (e) => {
-    //   e.preventDefault();
-    //
-    //   const { onHands, title, author, description, published_year, publisher } = this.state.book;
-    //
-    //   axios.put('/api/book/'+this.props.match.params.id, { onHands, title, author, description, published_year, publisher })
-    //     .then((result) => {
-    //       this.props.history.push("/show/"+this.props.match.params.id)
-    //     });
-    // }
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -116,22 +99,32 @@ class Edit extends Component {
             published_year: published_year.value,
             publisher: publisher.value
         };
+
         axios.put('/api/book/' + this.props.match.params.id, sendData)
             .then((result) => {
                 this.props.history.push("/show/" + this.props.match.params.id)
             });
-    }
+    };
+
+    BooleanParse = function (str) {
+        switch (str.toLowerCase()) {
+            case "true":
+                return true;
+            case "false":
+                return false;
+            default:
+                throw new Error("Boolean.parse: Cannot convert string to boolean.");
+        }
+    };
 
     onChangeHandler = (event, controlName) => {
-        const formControls = {...this.state.formControls}
-        const control = {...formControls[controlName]}
-
-        control.value = event.target.value
+        const formControls = {...this.state.formControls};
+        const control = {...formControls[controlName]};
+        controlName === 'onHands' ? control.value = this.BooleanParse(event.target.value) : control.value = event.target.value;
         control.touched = true;
-        control.valid = validate(control.value, control.validation)
+        control.valid = validate(control.value, control.validation);
 
         formControls[controlName] = control;
-
         let isFormValid = true;
 
         Object.keys(formControls).forEach(name => {
@@ -149,7 +142,10 @@ class Edit extends Component {
             if (controlName !== '_id' && controlName === 'onHands') {
                 return (
                     <div className="form-group">
-                        <label className='col-4 mr-3'>On Hands</label>
+                        <div className='d-flex align-items-start'>
+                            <label className='col-4'>On Hands</label>
+                            <span className="glyphicon glyphicon-asterisk asterisk" aria-hidden="true"/>
+                        </div>
                         <div className="form-check-inline">
                             <Input
                                 name='onHands'
@@ -162,6 +158,7 @@ class Edit extends Component {
                                 shouldValidate={!!control.validation}
                                 errorMessage={control.errorMessage}
                                 onChange={event => this.onChangeHandler(event, controlName)}
+                                checked={control.value === control.options[0].value}
                             />
                         </div>
                         <div className="form-check-inline">
@@ -176,11 +173,12 @@ class Edit extends Component {
                                 shouldValidate={!!control.validation}
                                 errorMessage={control.errorMessage}
                                 onChange={event => this.onChangeHandler(event, controlName)}
+                                checked={control.value === control.options[1].value}
                             />
                         </div>
                     </div>
                 )
-            } else if(controlName !== '_id'){
+            } else if (controlName !== '_id') {
                 return (
                     <div className="form-group">
                         <Input
@@ -208,11 +206,15 @@ class Edit extends Component {
                     EDIT BOOK
                 </h3>
                 <div className="panel-body">
-                    <h4><Link to={`/show/${this.state.formControls._id.value}`}><span className="glyphicon glyphicon-eye-open"
-                                                                        aria-hidden="true"></span> Book List</Link></h4>
+                    <h4><Link to={`/show/${this.state.formControls._id.value}`}><span
+                        className="glyphicon glyphicon-eye-open"
+                        aria-hidden="true"></span> Book List</Link></h4>
                     <form onSubmit={this.onSubmit}>
                         {this.renderInputs()}
-                        <button type="submit" className="btn-submit" className={!this.state.isFormValid ? 'disabled' : 'btn-submit'} disabled={!this.state.isFormValid}>Submit</button>
+                        <button type="submit" className="btn-submit"
+                                className={!this.state.isFormValid ? 'disabled' : 'btn-submit'}
+                                disabled={!this.state.isFormValid}>Submit
+                        </button>
                     </form>
                 </div>
             </div>
