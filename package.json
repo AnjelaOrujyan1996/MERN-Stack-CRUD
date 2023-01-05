@@ -12,7 +12,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14",
+    "react-scripts": "5.0.1",
     "serve-favicon": "^2.4.5",
     "concurrently": "^3.5.1",
     "nodemon": "^1.14.7"
